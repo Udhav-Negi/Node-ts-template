@@ -1,0 +1,27 @@
+# Node modules 
+node_modules/
+
+
+# Uncomment the following part 
+# # Logs 
+# *.log
+
+# # VScode settings
+# .vscode
+
+
+# # Optional eslint cache
+# .eslintcache
+
+# # Dist directory 
+# build/
+# dist/
+
+# # .env files 
+# *.env
+
+# # Misc
+# notes.txt   
+# TODO.md
+# docs/
+# todo.txt
