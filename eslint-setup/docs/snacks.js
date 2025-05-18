@@ -1,4 +1,4 @@
 import lodash from 'lodash';
-var arr = ["apples", "grapes", "oranges"];
+var arr = ["tea", "coffee", "snacks"];
 
 lodash.findIndex(arr, 'grapes');
