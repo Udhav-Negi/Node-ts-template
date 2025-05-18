@@ -1,4 +1,5 @@
-const path = require('path');
+// const path = require('path');
+import path from 'path';
 
 
 console.log('setup file path is ', path.join(__dirname, "./jest.setup.ts"));

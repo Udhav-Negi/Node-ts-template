@@ -8,7 +8,7 @@ const client = new MongoClient(mongodbURL, {
 });
 
 
-var pool = mysql.createPool({
+const pool = mysql.createPool({
     connectionLimit : 50,
     database : process.env.MYSQL_DATABASE,
     host : process.env.MYSQL_HOST,
@@ -18,7 +18,7 @@ var pool = mysql.createPool({
 } as PoolOptions);
 
 
-var wpool = mysql.createPool({
+const wpool = mysql.createPool({
     connectionLimit : 20,
     database : process.env.MYSQL_DATABASE,
     host : process.env.MYSQL_HOST,
@@ -29,11 +29,12 @@ var wpool = mysql.createPool({
 
 
 let mongoClient : Db;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const connectMongoDatabase = async () => {
     try {
         await client.connect();
         console.log('connected successfully to mongodb');
-        let mongodbName = process.env.MONGODB_DATABASE;
+        const mongodbName = process.env.MONGODB_DATABASE;
         mongoClient = client.db(mongodbName);
     } catch (error) {
         console.log('error in connection to mongodb is ', error.message);

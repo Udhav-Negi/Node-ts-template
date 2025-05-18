@@ -12,7 +12,8 @@ export default defineConfig([
   {
     files : ["**/*.{js, ts}"],
     rules : {
-      "semi" : ["error"]
+      semi : ["error"],
+      indent : ["error"]
     }
   }
 ]);
