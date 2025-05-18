@@ -1,15 +1,15 @@
-// const path = require('path');
 import path from 'path';
 
-
-console.log('setup file path is ', path.join(__dirname, "./jest.setup.ts"));
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
-module.exports = {
+// module.exports = {
+export default {
     testEnvironment: "node",
     transform: {
+        // eslint-disable-next-line no-useless-escape
         "^.+\.tsx?$": ["ts-jest",{}],
     },
     testMatch: ["**/test/**/*.test.ts"],
+    // eslint-disable-next-line no-undef
     setupFiles : [path.join(__dirname, "./jest.setup.ts")],
     verbose: true,
     forceExit: true,

@@ -6,7 +6,8 @@
     "start:dev": "nodemon ./src/api/main.ts",
     "test": "jest",
     "test:debug": "jest --detectOpenHandles --watch",
-    "lint" : "npx eslint"
+    "lint" : "npx eslint",
+    "lint:fix" : "npx eslint --fix"
   },
   "author": {
     "name": "Udhav Negi",
