@@ -1,0 +1,9 @@
+-> The term lint, or a linter, is a static code analysis tool used to flag programming errors, bugs, stylistic errors and suspicious constructs 
+-> ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs
+
+
+--------------------------------------------- ESLint commands --------------------------------------------------
+1.eslint js 
+    -> Js is the folder name 
+2. eslint --int 
+    -> It is used to initialise the es lint project
