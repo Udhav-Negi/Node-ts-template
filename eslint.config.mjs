@@ -13,8 +13,9 @@ export default defineConfig([
     files : ["**/*.{js, ts}"],
     rules : {
       semi : ["error"],
+      "./eslint-setup/rules/find-payments" : "error", // this is the custom rule. By default it serach in the node modules
       indent : ["error"],
-      "consistent-return" : ["error"]
+      "consistent-return" : ["off"]
     }
   }
 ]);

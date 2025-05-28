@@ -7,3 +7,15 @@
     -> Js is the folder name 
 2. eslint --int 
     -> It is used to initialise the es lint project
+
+------------------------------------------------------- AST --------------------------------------------------------
+-> AST is nothing but javascript object that describes code.
+-> Tools that use AST are 
+    . Webpack
+    . Linters
+    . Babel.js
+    . Minifiers
+    . Syntax
+    . Highlighters
+-> ESLint uses the ESPree Javascript parser.
+-> ESPree converts javascript code to the AST

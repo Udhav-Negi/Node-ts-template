@@ -3,25 +3,25 @@ node_modules/
 
 
 # Uncomment the following part 
-# # Logs 
-# *.log
+# Logs 
+*.log
 
-# # VScode settings
-# .vscode
+# VScode settings
+.vscode
 
 
 # # Optional eslint cache
-# .eslintcache
+.eslintcache
 
 # # Dist directory 
-# build/
-# dist/
+build/
+dist/
 
 # # .env files 
-# *.env
+*.env
 
 # # Misc
-# notes.txt   
-# TODO.md
-# docs/
-# todo.txt
+notes.txt   
+TODO.md
+docs/
+todo.txt
