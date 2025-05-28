@@ -4,11 +4,21 @@ import { router } from '../core/routes/v1/routes';
 // import { connectMongoDatabase } from './database.config';
 import { createRedisClient } from './redis.config';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 
 export const createExpressApp = async () => {
     const app = express();
     
 
+    app.use(session({
+        secret : "anson the dev",
+        saveUninitialized : false, // it is for the session store
+        resave : false, // forcing a session back to the session store 
+        cookie : {
+            maxAge : 60000 * 60,
+        }
+
+    }))
     app.use(cors({
         origin : "http://localhost:5173",
         credentials: true
