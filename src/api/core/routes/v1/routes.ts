@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Response, Router } from "express";
 
 const router = Router();
 
@@ -6,7 +6,7 @@ const router = Router();
 // router.get('/', (req : Request, res : Response) => {
 // eslint-disable-next-line
 router.get('/', (req : any, res : Response) => { // I am doing this because I want to use express session
-    console.log('session is ', req.session);
+    console.log('session inisde default endpoint is ', req.session);
     console.log(req.sessionID);
     console.log(req.session.id);
 
@@ -14,6 +14,7 @@ router.get('/', (req : any, res : Response) => { // I am doing this because I wa
     req.session.visited = true;
     res.json({message : "fetching cookies"})
 })
+// eslint-disable-next-line
 router.get('/getid', (req : any, res : Response) => { // I am doing this because I want to use express session
     console.log('session inside get id is', req.session);
     console.log(req.sessionID);
@@ -27,7 +28,7 @@ router.get('/getid', (req : any, res : Response) => { // I am doing this because
             console.log(err);
             throw err;
         }
-        console.log('session data is ', sessionData);
+        console.log('session data received is ', sessionData);
     })
 
     res.json({message : "fetching cookies"})
