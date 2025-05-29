@@ -5,6 +5,7 @@ import { router } from '../core/routes/v1/routes';
 import { createRedisClient } from './redis.config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import passport from 'passport';
 
 export const createExpressApp = async () => {
     const app = express();
@@ -28,6 +29,9 @@ export const createExpressApp = async () => {
     app.use(cookieParser());
     app.use(express.json());
     app.use(express.urlencoded({extended : true}));
+    app.use(passport.initialize());
+    app.use(passport.session());
+
     app.use('/', router);
     
     // await connectMongoDatabase();
