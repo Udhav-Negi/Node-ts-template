@@ -96,7 +96,43 @@ router.get('/getid', (req : any, res : Response) => { // I am doing this because
 
 // endpoints for passport 
 router.post('/api/auth', passport.authenticate('local'), (req : Request, res : Response) => {
+    try {
+        res.send(200)
+    } catch (error) {
+        res.json({
+            error : error.message
+        })
+    }
+})
 
+router.get('/api/auth/status', (req : Request, res : Response) => {
+    console.log('inside the get endpoint');
+    console.log(req.user);
+    console.log(req.session);
+    // console.log(req.session.passport); // fix this for ts 
+
+    if(req.user) {
+        res.send(req.user);
+        return;
+    }
+
+    res.send("not login")
+})
+
+router.post('/api/auth/logout', (req : Request, res : Response) => {
+    if(!req.user)
+    {
+        res.send("not logged in")
+        return;
+    }
+
+    req.logOut((err) => {
+        if(err)
+            res.send(err.message);
+        else 
+            res.send("logged out")
+    })
+    
 })
 
 export {router};
