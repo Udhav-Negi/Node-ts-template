@@ -1,0 +1,26 @@
+------------------------------------------ COOKIES ---------------------------
+1. res.cookie(cookie_name, 'value', {expire: 400000 + Date.now()});
+    -> Cookie expires after 40 seconds 
+2. res.cookie(cookie_name, 'value', {maxAge: 360000});
+    -> It also expires after 400000 ms from the time it is set.
+3. Destroys the cookie 
+    -> res.clearCookie(cookieName);
+
+------------------------------------------ SESSION ---------------------------
+1. req.session, req.sessionId, req.session.id 
+    -> It is used to access the session from the request object 
+
+2. Setting the session against a particular payload 
+    -> req.session.visited = true;
+
+3. Getting the session 
+    -> req.sessionStore.get(req.session.id, (err, sessionData) => {
+        if(err)
+        {
+            console.log(err);
+            throw err;
+        }
+        console.log('session data is ', sessionData);
+    })
+
+4. Remember if we saved the cookie by req.session.use = {} then when we visit that cookie by req.session.user, it will return us the same payload whereas req.sessionStore.get and req.session give us the value of session stores abd along with its metadata

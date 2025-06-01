@@ -1,0 +1,76 @@
+1. Package needed 
+    a. passport, passpory-local
+
+2. passport.initialize()
+    -> It is used to initialize the passport as middleware
+
+3. passport.session()
+    -> It adds a dynamic user property to the req object
+
+4. Using passport local strategy 
+    -> Every passport strategy has this Strategy class
+
+    a. Using strategy
+        -> export default passport.use(
+            new Strategy({usernameField : "email"}(username : string, password : string, done) => {
+        })
+
+        -> It means look for username as email in the request body
+        -> done function is used in both the cases, user found or wrong credentials 
+            Success -> doen(null, user)
+            Failure -> doen(error, null) -> null menas user is not found
+        )   
+    
+    b. Now after using our strategy, we will register our midlleware
+        -> router.post('/api/auth', passport.authenticate('local'), (req : Request, res : Response) => {  })
+        -> Now after that passport need to serialize that user into session.
+    
+    c. passport.serialize()
+        -> syntax 
+           -> passport.serializeUser((user, done) => {
+                done(null, user)
+        })
+
+        -> This function is responsible for taking that validated user and then storing it in the session.
+        -> Inside the serialize function , we pass user (it is that user obejct which we just validated and then storing it in the session) and done (it is a callback, it takes in two arguments, the first one is error and the second is the id of the user, because id is unique for ecah user)
+    
+    d. passport.deserializeUser()
+        -> syntax 
+            -> passport.deserializeUser((id, done) => {
+                try{
+                    // mockusers is the temporary array in which dummy users are stored
+                    const findUser = mockUsers.find(user => user.id === id)
+                    if(!findUser) 
+                        throw new Error("User not found"); 
+                    done(null, user)
+                }
+                catch(err) {
+                    done(err, null)
+                }
+            })
+        
+        -> In deserializeUser we pass first argumrnt as the id of the user (it is the same id which we passed into the done callback inside serializeUser) and second is the done function.
+        -> Now inside deserializeUser, we need to search for the user itself and after finding, it stores the user object in the request object itself.
+        -> Now inside deserializeUser, we need to search for the user itself and after finding, it stores the user object in the request object itself.
+        -> So inside the deserializeUser, we need to search the user in the database.
+
+    e. Flow of the entire request 
+        -> When user first logs in, serialize function is called to save the user id into the cookie.  
+        -> After the first request, deserializeUser is called everytime to check for the user in cookie
+        -> validate through passport -> serializeUser -> execute controller 
+
+
+
+    **********************************************   Note ***********************************************
+    -> Passport will attach a property called user into the req object
+    -> It also adds the property passport to the request object and it can be accessed as req.session.passport.
+
+5. Session Store 
+    -> Properties that manipulate session store 
+        -> saveUninitialized 
+            -> This property if set true creates a session for those users which are not authorized and then saves the sessionid into session store 
+        -> reSave 
+            -> This property if set true, updates the expiration time of the session cookie each time it is accessed in session true.
+
+6. Properties attached by passport after desrilaize middleware
+    -> req.isAuthenticated()
