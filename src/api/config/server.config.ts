@@ -6,12 +6,14 @@ import { createRedisClient } from './redis.config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
+import { redisStore } from './redisStore.config';
 
 export const createExpressApp = async () => {
     const app = express();
     
 
     app.use(session({
+        store : redisStore,
         secret : "anson the dev",
         saveUninitialized : false, // it is for the session store
         resave : false, // forcing a session back to the session store 
