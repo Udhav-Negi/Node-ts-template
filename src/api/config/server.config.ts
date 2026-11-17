@@ -1,45 +1,43 @@
 import express from 'express';
 import cors from 'cors';
-import { router } from '../core/routes/v1/routes';
-// import { connectMongoDatabase } from './database.config';
-import { createRedisClient } from './redis.config';
+import { authRoutes } from '../core/routes/v1/auth.routes';
+import { mainRoutes } from '../core/routes/v1/main.routes';
+import { RedisConfig } from './redis.config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
-import { redisStore } from './redisStore.config';
+import { DatabaseConfig } from './database.config';
+import { PassportStrategy } from '../core/middlewares/passport-strategy.middleware';
 
 export const createExpressApp = async () => {
+    
     const app = express();
+    await RedisConfig.connectToRedis();
+    await DatabaseConfig.connectToPgDb();
     
 
     app.use(session({
-        store : redisStore,
-        secret : "anson the dev",
+        store : RedisConfig.getRedisSessionStore(),
+        secret : process.env.SESSIONS_SECRET as string,
         saveUninitialized : false, // it is for the session store
         resave : false, // forcing a session back to the session store 
         cookie : {
             maxAge : 60000 * 60,
         }
-
-    }))
-    app.use(cors({
-        origin : "http://localhost:5173",
-        credentials: true
+        
     }));
+    
+    await PassportStrategy.initialiseLocalStrategy();
+    app.use(passport.authenticate('session'));
 
+    app.use(cors());
     app.set('trust proxy', true);
     app.use(cookieParser());
     app.use(express.json());
     app.use(express.urlencoded({extended : true}));
-    app.use(passport.initialize());
-    app.use(passport.session());
 
-    app.use('/', router);
-    
-    // await connectMongoDatabase();
-    await createRedisClient();
-
-
+    app.use('/', authRoutes);
+    app.use('/', mainRoutes);
     return app;
 
 }

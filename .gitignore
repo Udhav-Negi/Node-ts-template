@@ -20,8 +20,8 @@ dist/
 # # .env files 
 *.env
 
-# # Misc
-notes.txt   
-TODO.md
 # docs/
-todo.txt
+password.txt
+
+# Prisma
+migrations

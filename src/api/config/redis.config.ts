@@ -1,14 +1,42 @@
-import { createClient } from 'redis';
+import { RedisStore } from 'connect-redis';
+import { createClient, createCluster } from 'redis';
 
-const redisClient = createClient();
-const createRedisClient = async () => {
-    try {
-        redisClient.on('error', err => console.log('Redis Client Error', err));
-        await redisClient.connect();
-        console.log('connection successfully made using redis client');
-    } catch (error) {
-        console.log('error connecting to redis client is ', error.message);
+class RedisConfig {
+
+    static redisObj: RedisConfig;
+    private redisClient;
+    private redisSessionStoreClient;
+
+    constructor() {
+        this.redisClient = createClient();
+        this.redisSessionStoreClient = new RedisStore({
+            client : this.redisClient,
+            prefix : "sess:"
+        });
     }
+
+    static async connectToRedis() {
+        console.log('inside connect to redis');
+        if(this.redisObj == null || this.redisObj == undefined) {
+            this.redisObj = new RedisConfig();
+        }
+
+        this.redisObj.redisClient.on('error', err => console.log('Redis Client Error', err));
+        await this.redisObj.redisClient.connect();
+        console.log('connected to redis');
+    }
+
+
+    static getRedisClient() {
+        console.log('inside get redis client:', this.redisObj);
+        return this.redisObj.redisClient;
+    }
+
+    static getRedisSessionStore() {
+        return this.redisObj.redisSessionStoreClient;
+    }
+
+
 }
 
-export {redisClient, createRedisClient};
+export {RedisConfig};

@@ -1,55 +1,43 @@
-import mysql, { PoolOptions } from 'mysql2'
-import { Db, MongoClient } from 'mongodb';
+import postgres from "@prisma/orm-postgres/runtime";
+import { contractFromJson } from "@prisma/orm-postgres/static";
+import type { Contract } from "../../../prisma/contract.d.ts";
+import contractJson from "../../../prisma/contract.json" with { type: "json" };
 
-// const mongodbURL = process.env.MONGODB_DATABASE_URL + process.env.MONGODB_DATABASE ;
-const mongodbURL = "mongodb://localhost:27017/radiowalla4";
-const client = new MongoClient(mongodbURL, {
-    maxPoolSize: 20
-});
+class DatabaseConfig {
 
+  private static pgObj: DatabaseConfig;
+  private db;
 
-const pool = mysql.createPool({
-    connectionLimit : 50,
-    // eslint-disable-next-line no-undef
-    database : process.env.MYSQL_DATABASE,
-    // eslint-disable-next-line no-undef
-    host : process.env.MYSQL_HOST,
-    // eslint-disable-next-line no-undef
-    user : process.env.MYSQL_USERNAME,
-    // eslint-disable-next-line no-undef
-    password : process.env.MYSQL_PASSWORD,
-     
-    debug : false,
-} as PoolOptions);
+  private constructor() {
+    const contract = contractFromJson<Contract>(contractJson);
+
+    this.db = postgres({
+      contract,
+      url: process.env["PG_DATABASE_URL"]!,
+    });
+
+  }
 
 
-const wpool = mysql.createPool({
-    connectionLimit : 20,
-    // eslint-disable-next-line no-undef
-    database : process.env.MYSQL_DATABASE,
-    // eslint-disable-next-line no-undef
-    host : process.env.MYSQL_HOST,
-    // eslint-disable-next-line no-undef
-    user : process.env.MYSQL_USERNAME,
-    // eslint-disable-next-line no-undef
-    password : process.env.MYSQL_PASSWORD,
-    debug : false
-} as PoolOptions);
-
-
-let mongoClient : Db;
- 
-
-const connectMongoDatabase = async () => {
-    try {
-        await client.connect();
-        console.log('connected successfully to mongodb');
-        // eslint-disable-next-line no-undef
-        const mongodbName = process.env.MONGODB_DATABASE;
-        mongoClient = client.db(mongodbName);
-    } catch (error) {
-        console.log('error in connection to mongodb is ', error.message);
+  static async connectToPgDb() {
+    if(this.pgObj == undefined || this.pgObj == null) {
+      this.pgObj = new DatabaseConfig();
     }
+
+    await this.pgObj.connectToPgDb();
+
+  }
+
+  async connectToPgDb() {
+    await this.db.connect();
+    console.log("Connected to pg database");
+  }
+
+  static getPgDbObject() {
+      return this.pgObj.db;
+
+  }
+
 }
 
-export {mongoClient, connectMongoDatabase, pool, wpool}
+export { DatabaseConfig };
