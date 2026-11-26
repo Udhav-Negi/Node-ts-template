@@ -7,8 +7,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "tsx watch ./src/api/main.ts"
+    "build": "tsc --build && shx cp package.json .env dist/ ",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "start:dev": "tsx watch ./src/api/main.ts",
+    "start:prod": "node ./src/api/main.js"
   },
   "repository": {
     "type": "git",
@@ -40,10 +43,13 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^26.6.6",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
+    "jest": "^30.5.2",
     "prisma": "^8.0.0-rc.33",
+    "shx": "^0.4.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

@@ -16,7 +16,6 @@ class RedisConfig {
     }
 
     static async connectToRedis() {
-        console.log('inside connect to redis');
         if(this.redisObj == null || this.redisObj == undefined) {
             this.redisObj = new RedisConfig();
         }
@@ -28,7 +27,6 @@ class RedisConfig {
 
 
     static getRedisClient() {
-        console.log('inside get redis client:', this.redisObj);
         return this.redisObj.redisClient;
     }
 
